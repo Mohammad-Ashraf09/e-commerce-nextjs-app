@@ -1,3 +1,4 @@
+'use client';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
 interface RatingProps {
@@ -21,7 +22,7 @@ const Rating = ({ rating }: RatingProps): React.JSX.Element => {
         <>
             <div className="flex items-center gap-0.5 text-xs">
                 {stars}
-                <span className="rating ml-1 font-semibold">({rating})</span>
+                <span className="rating ml-1 font-semibold">({rating.toFixed(1)})</span>
             </div>
 
             <style jsx global>{`

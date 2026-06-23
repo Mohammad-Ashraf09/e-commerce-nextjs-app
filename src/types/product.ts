@@ -18,4 +18,8 @@ export interface Product {
     thumbnail: string;
     images: string[];
     reviews: Review[];
+    stock: number;
+    availabilityStatus: string;
+    shippingInformation: string;
+    warrantyInformation: string;
 }

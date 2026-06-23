@@ -35,7 +35,7 @@ const ProductCard = ({ product, isSidebarOpen }: ProductCardProps): React.JSX.El
                     >
                         ${Math.round(product.price)}
                     </span>
-                    <Rating rating={Number(product.rating.toFixed(1))} />
+                    <Rating rating={product.rating} />
                 </div>
             </div>
 
