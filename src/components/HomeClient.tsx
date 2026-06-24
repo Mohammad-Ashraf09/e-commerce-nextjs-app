@@ -10,14 +10,17 @@ interface HomeClientProps {
 }
 
 const HomeClient = ({ categories }: HomeClientProps): React.JSX.Element => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const storageData = JSON.parse(localStorage.getItem('productFilters') || '{}');
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(storageData?.isSidebarOpen || false);
     const [searchTerm, setSearchTerm] = useState('');
+
     return (
         <div className="min-h-screen p-8">
             <div className="mx-auto max-w-7xl overflow-hidden rounded-lg bg-white shadow-lg">
                 <Header
                     isSidebarOpen={isSidebarOpen}
-                    onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
+                    onToggleSidebar={() => setIsSidebarOpen((prev: boolean) => !prev)}
                     searchTerm={searchTerm}
                     onSearchChange={setSearchTerm}
                 />

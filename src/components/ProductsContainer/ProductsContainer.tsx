@@ -27,14 +27,66 @@ const ProductsContainer = ({
     isSidebarOpen,
     searchTerm,
 }: ProductsContainerProps): React.JSX.Element => {
+    const getSavedFilters = () => {
+        if (typeof window === 'undefined') {
+            return {
+                currentPage: 1,
+                selectedCategory: '',
+                selectedBrands: [],
+                minPrice: undefined,
+                maxPrice: undefined,
+                searchTerm: '',
+                isSidebarOpen: false,
+            };
+        }
+
+        const savedData = localStorage.getItem('productFilters');
+        return savedData
+            ? JSON.parse(savedData)
+            : {
+                  currentPage: 1,
+                  selectedCategory: '',
+                  selectedBrands: [],
+                  minPrice: undefined,
+                  maxPrice: undefined,
+                  searchTerm: '',
+                  isSidebarOpen: false,
+              };
+    };
+
+    const storageData = getSavedFilters();
+
     const [allProducts, setAllProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-    const [minPrice, setMinPrice] = useState<number | undefined>();
-    const [maxPrice, setMaxPrice] = useState<number | undefined>();
+    const [currentPage, setCurrentPage] = useState(storageData?.currentPage);
+    const [selectedCategory, setSelectedCategory] = useState(storageData?.selectedCategory);
+    const [selectedBrands, setSelectedBrands] = useState<string[]>(storageData?.selectedBrands);
+    const [minPrice, setMinPrice] = useState<number | undefined>(storageData?.minPrice);
+    const [maxPrice, setMaxPrice] = useState<number | undefined>(storageData?.maxPrice);
+
+    useEffect(() => {
+        localStorage.setItem(
+            'productFilters',
+            JSON.stringify({
+                currentPage,
+                selectedCategory,
+                selectedBrands,
+                minPrice,
+                maxPrice,
+                searchTerm,
+                isSidebarOpen,
+            })
+        );
+    }, [
+        currentPage,
+        selectedCategory,
+        selectedBrands,
+        minPrice,
+        maxPrice,
+        searchTerm,
+        isSidebarOpen,
+    ]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -86,7 +138,9 @@ const ProductsContainer = ({
      ** handlePriceApply is dependency of useEffect in PriceFilter component
      */
     const handlePriceApply = useCallback((min?: number, max?: number) => {
-        setCurrentPage(1);
+        if (min || max) {
+            setCurrentPage(1);
+        }
         setMinPrice(min);
         setMaxPrice(max);
     }, []);
