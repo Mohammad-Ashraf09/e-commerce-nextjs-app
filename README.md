@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-Commerce Next.js App
 
-## Getting Started
+A Next.js e-commerce starter app built with TypeScript, Tailwind CSS, Sass, and a simple product browsing experience. The current implementation uses the DummyJSON API for product and category data, with a client-side home experience and reusable service layers.
 
-First, run the development server:
+## Setup Instructions
 
+### Prerequisites
+- Node.js 20.13+ recommended
+- npm
+
+### Install dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Run locally
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open http://localhost:3000 in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Useful scripts
+```bash
+npm run build
+npm run start
+npm run lint
+npm run format
+npm run format:check
+```
 
-## Learn More
+## Assumptions Made
+- The app is a front-end product browsing experience and does not yet include a full checkout or authentication flow.
+- Product data is currently sourced from DummyJSON via the HTTP client in the `src/services` folder.
+- The UI is designed to be extended later with real API integration, cart functionality, and a detailed product page.
+- Tailwind CSS is used for layout and styling, while Sass support is available for future component-level styling.
 
-To learn more about Next.js, take a look at the following resources:
+## Architectural Decisions
+- Next.js App Router is used for route organization under `src/app`.
+- A service layer was introduced in `src/services` to isolate API calls from UI components.
+- `src/components` contains presentational and client-side UI pieces, keeping the page-level components smaller and easier to maintain.
+- A reusable `api` client is used to centralize the base URL, timeout, and headers for external requests.
+- The home page uses a client component (`HomeClient`) to manage local UI state such as sidebar visibility and search input.
+- Product-related logic is separated from presentation to make future migration to a real backend or CMS easier.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
+```text
+src/
+  app/              # Route-based pages and layouts
+  components/       # Reusable UI components
+  services/         # API services and axios client
+  types/            # Shared TypeScript types
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+- The app currently focuses on product discovery and category browsing.
+- Future improvements may include a cart, user authentication, checkout, and a richer product detail experience.
