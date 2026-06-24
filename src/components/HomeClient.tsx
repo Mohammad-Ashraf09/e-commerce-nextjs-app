@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '@/components/Header/Header';
 import ProductsContainer from '@/components/ProductsContainer/ProductsContainer';
 
@@ -10,10 +10,25 @@ interface HomeClientProps {
 }
 
 const HomeClient = ({ categories }: HomeClientProps): React.JSX.Element => {
-    const storageData = JSON.parse(localStorage.getItem('productFilters') || '{}');
-
-    const [isSidebarOpen, setIsSidebarOpen] = useState(storageData?.isSidebarOpen || false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isReady, setIsReady] = useState(false);
+
+    useEffect(() => {
+        const savedFilters = localStorage.getItem('productFilters');
+
+        if (savedFilters) {
+            const parsed = JSON.parse(savedFilters);
+            setIsSidebarOpen(parsed.isSidebarOpen ?? false);
+            setSearchTerm(parsed.searchTerm ?? '');
+        }
+
+        setIsReady(true);
+    }, []);
+
+    if (!isReady) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="min-h-screen p-8">
